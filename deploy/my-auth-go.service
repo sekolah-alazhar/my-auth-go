@@ -1,0 +1,45 @@
+[Unit]
+Description=My Auth Go — Backend Authentication & User Management API
+Documentation=https://github.com/sekolah-alazhar/my-auth-go
+After=network-online.target mariadb.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=myauth
+Group=myauth
+EnvironmentFile=/etc/my-auth-go/my-auth-go.env
+WorkingDirectory=/var/lib/my-auth-go
+ExecStart=/usr/local/bin/my-auth-go
+Restart=always
+RestartSec=3
+TimeoutStopSec=15
+
+# ---- Hardening ----
+NoNewPrivileges=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectSystem=strict
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectKernelLogs=true
+ProtectControlGroups=true
+ProtectClock=true
+ProtectHostname=true
+ProtectProc=invisible
+RestrictSUIDSGID=true
+RestrictRealtime=true
+RestrictNamespaces=true
+LockPersonality=true
+SystemCallFilter=@system-service
+SystemCallArchitectures=native
+ReadWritePaths=/var/lib/my-auth-go
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+UMask=0077
+LimitNOFILE=8192
+MemoryMax=256M
+TasksMax=64
+
+[Install]
+WantedBy=multi-user.target
